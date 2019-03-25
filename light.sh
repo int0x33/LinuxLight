@@ -1,6 +1,16 @@
-echo "Check 1: What's the distribution type? What version?"
-cat /etc/issue 2>/dev/null
-cat /etc/*-release 2>/dev/null
+banner () {
+  echo "******************************************************"
+  echo "[i] $1"
+}
+
+banner "System Info" && uname -a
+banner "Available Compilers" && dpkg --list 2>/dev/null| grep compiler |grep -v decompiler 2>/dev/null && yum list installed 'gcc*' 2>/dev/null| grep gcc 2>/dev/null
+banner "Kernel information" && cat /proc/version 2>/dev/null
+banner "Distribution information" && cat /etc/*-release 2>/dev/null
+banner "Distribution information" && cat /etc/issue 2>/dev/null
+banner "CPU information" && cat /proc/cpuinfo 2>/dev/null
+banner "File system information" && df -a 2>/dev/null
+banner "List available compilers" && dpkg --list 2>/dev/null| grep compiler |grep -v decompiler 2>/dev/null && yum list installed 'gcc*' 2>/dev/null| grep gcc 2>/dev/null
 
 echo "Check 2: What's the kernel version? Is it 64-bit?"
 cat /proc/version 2>/dev/null
