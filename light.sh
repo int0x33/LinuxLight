@@ -7,27 +7,25 @@ cat /proc/version 2>/dev/null
 uname -a 2>/dev/null
 uname -mrs 2>/dev/null
 rpm -q kernel 2>/dev/null
-dmesg | grep Linux 2>/dev/null
-ls /boot | grep vmlinuz-  2>/dev/null
+dmesg 2>/dev/null | grep Linux
+ls /boot 2>/dev/null | grep vmlinuz-
 
 echo "Check 3: What can be learnt from the environmental variables?"
-cat /etc/profile  2>/dev/null
-cat /etc/bashrc  2>/dev/null
-cat ~/.bash_profile  2>/dev/null
-cat ~/.bashrc  2>/dev/null
-cat ~/.bash_logout  2>/dev/null
-env  2>/dev/null
-set  2>/dev/null
+cat /etc/profile 2>/dev/null
+cat /etc/bashrc 2>/dev/null
+cat ~/.bash_profile 2>/dev/null
+cat ~/.bashrc 2>/dev/null
+cat ~/.bash_logout 2>/dev/null
+env 2>/dev/null
+set 2>/dev/null
 
 echo "Check 4: Is there a printer?"
-lpstat -a  2>/dev/null
-Applications & Services  2>/dev/null
+lpstat -a 2>/dev/null
 
 echo "Check 4: What services are running? Which service has which user privilege?"
-ps aux  2>/dev/null
-ps -ef  2>/dev/null
-top  2>/dev/null
-cat /etc/services  2>/dev/null
+ps aux 2>/dev/null
+ps -ef 2>/dev/null
+cat /etc/services 2>/dev/null
 
 echo "Check 5: Which service(s) are been running by root? Of these services, which are vulnerable - it's worth a double check!"
 ps aux | grep root  2>/dev/null
@@ -51,7 +49,7 @@ cat /etc/apache2/apache2.conf  2>/dev/null
 cat /etc/my.conf  2>/dev/null
 cat /etc/httpd/conf/httpd.conf  2>/dev/null
 cat /opt/lampp/etc/httpd.conf  2>/dev/null
-ls -aRl /etc/ | awk '$1 ~ /^.*r.*/  2>/dev/null
+ls -aRl /etc/ | awk '$1 ~ /^.*r.*/' 2>/dev/null
 
 echo "Check 8: What jobs are scheduled?"
 crontab -l 2>/dev/null
@@ -240,7 +238,7 @@ find / -perm -1000 -type d 2>/dev/null   # Sticky bit - Only the owner of the di
 find / -perm -g=s -type f 2>/dev/null    # SGID (chmod 2000) - run as the group, not the user who started it.
 find / -perm -u=s -type f 2>/dev/null    # SUID (chmod 4000) - run as the owner, not the user who started it.
 find / -perm -g=s -o -perm -u=s -type f 2>/dev/null    # SGID or SUID
-for i in `locate -r "bin$"`; do find $i \( -perm -4000 -o -perm -2000 \) -type f 2>/dev/null; done    # Looks in 'common' places: /bin, /sbin, /usr/bin, /usr/sbin, /usr/local/bin, /usr/local/sbin and any other *bin, for SGID or SUID (Quicker search)
+for i in `locate -r "bin$" 2>/dev/null;`; do find $i \( -perm -4000 -o -perm -2000 \) -type f 2>/dev/null; done    # Looks in 'common' places: /bin, /sbin, /usr/bin, /usr/sbin, /usr/local/bin, /usr/local/sbin and any other *bin, for SGID or SUID (Quicker search)
 # find starting at root (/), SGID or SUID, not Symbolic links, only 3 folders deep, list with more detail and hide any errors (e.g. permission denied)
 find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null
 
