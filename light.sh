@@ -49,7 +49,7 @@ cat /etc/apache2/apache2.conf  2>/dev/null
 cat /etc/my.conf  2>/dev/null
 cat /etc/httpd/conf/httpd.conf  2>/dev/null
 cat /opt/lampp/etc/httpd.conf  2>/dev/null
-ls -aRl /etc/ | awk '$1 ~ /^.*r.*/' 2>/dev/null
+ls -aRl /etc/ 2>/dev/null | awk '$1 ~ /^.*r.*/' 2>/dev/null
 
 echo "Check 8: What jobs are scheduled?"
 crontab -l 2>/dev/null
@@ -92,7 +92,7 @@ netstat -antup 2>/dev/null
 netstat -antpx 2>/dev/null
 netstat -tulpn 2>/dev/null
 chkconfig --list 2>/dev/null
-chkconfig --list | grep 3:on 2>/dev/null
+chkconfig --list 2>/dev/null | grep 3:on
 last 2>/dev/null
 w 2>/dev/null
 
@@ -158,8 +158,7 @@ cat /etc/ssh/ssh_host_rsa_key 2>/dev/null
 cat /etc/ssh/ssh_host_key.pub 2>/dev/null
 cat /etc/ssh/ssh_host_key 2>/dev/null
 
-echo "Check 21: File Systems"
-Which configuration files can be written in /etc/? Able to reconfigure a service?
+echo "Check 21: Which configuration files can be written in /etc/? Able to reconfigure a service?"
 ls -aRl /etc/ | awk '$1 ~ /^.*w.*/' 2>/dev/null     # Anyone
 ls -aRl /etc/ | awk '$1 ~ /^..w/' 2>/dev/null       # Owner
 ls -aRl /etc/ | awk '$1 ~ /^.....w/' 2>/dev/null    # Group
@@ -249,8 +248,7 @@ find / -perm -o w -type d 2>/dev/null     # world-writeable folders
 find / -perm -o x -type d 2>/dev/null     # world-executable folders
 find / \( -perm -o w -perm -o x \) -type d 2>/dev/null   
 
-echo "Check 29: World-writeable & executable folders"
-Any "problem" files? Word-writeable, "nobody" files
+echo "Check 29: World-writeable & executable folders. Any problem files? Word-writeable, nobody files"
 find / -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print 2>/dev/null # world-writeable files
 find /dir -xdev \( -nouser -o -nogroup \) -print  2>/dev/null # Noowner files
 
