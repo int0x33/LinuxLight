@@ -54,7 +54,7 @@ ls -aRl /etc/ 2>/dev/null | awk '$1 ~ /^.*r.*/' 2>/dev/null
 echo "Check 8: What jobs are scheduled?"
 crontab -l 2>/dev/null
 ls -alh /var/spool/cron 2>/dev/null
-ls -al /etc/ | grep cron 2>/dev/null
+ls -al /etc/ 2>/dev/null | grep cron
 ls -al /etc/cron* 2>/dev/null
 cat /etc/cron* 2>/dev/null
 cat /etc/at.allow 2>/dev/null
