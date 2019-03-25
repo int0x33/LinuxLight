@@ -15,6 +15,30 @@ banner "What's the kernel version? Is it 64-bit?" && rpm -q kernel 2>/dev/null &
 banner "Environmental variables" && cat /etc/profile 2>/dev/null && cat /etc/bashrc 2>/dev/null && cat ~/.bash_profile 2>/dev/null && cat ~/.bashrc 2>/dev/null && cat ~/.bash_logout 2>/dev/null && env 2>/dev/null && set 2>/dev/null
 banner "Is there a printer?" && lpstat -a 2>/dev/null
 banner "What services are running?" && ps aux 2>/dev/null && ps -ef 2>/dev/null && cat /etc/services 2>/dev/null
+banner "Display service run as root"
+ps aux 2>/dev/null | grep root
+banner "Display process binary permission"
+ps aux 2>/dev/null | awk '{print $11}'|xargs -r ls -la -- 2>/dev/null | uniq
+banner "List services managed by inetd"
+cat /etc/inetd.conf 2>/dev/null
+cat /etc/xinetd.conf 2>/dev/null
+banner "Installed packages (Ubuntu, Debian)"
+dpkg -l 2>/dev/null
+banner "Installed packages (RedHat, Fedora Core, Suse Linux, Cento)"
+rpm -qa 2>/dev/null
+banner "Installed packages (OpenBSD, FreeBSD)"
+pkg_info 2>/dev/null
+banner "Apache version"
+httpd -v 2>/dev/null
+apache2 -v 2>/dev/null
+banner "List loaded Apache modules"
+apache2ctl -M 2>/dev/null
+apachectl -M 2>/dev/null
+cat /etc/apache2/envvars 2>/dev/null |grep -i 'user|group' |awk '{sub(/.*export /,"")}1'	banner "Which account is Apache running as"
+banner "MYSQL version"
+mysql --version 2>/dev/null
+banner "Postgres version"
+psql -V 2>/dev/null
 banner "Which service(s) are been running by root?" && ps aux | grep root 2>/dev/null && ps -ef | grep root 2>/dev/null
 banner "What applications are installed?" && ls -alh /usr/bin/ 2>/dev/null && ls -alh /sbin/ 2>/dev/null && dpkg -l 2>/dev/null && rpm -qa 2>/dev/null && ls -alh /var/cache/apt/archivesO 2>/dev/null && ls -alh /var/cache/yum/ 2>/dev/null
 banner "Any of the service(s) settings misconfigured? Are any (vulnerable) plugins attached?" && cat /etc/syslog.conf 2>/dev/null cat /etc/chttp.conf 2>/dev/null && cat /etc/lighttpd.conf 2>/dev/null && cat /etc/cups/cupsd.conf 2>/dev/null && cat /etc/inetd.conf 2>/dev/null && cat /etc/apache2/apache2.conf 2>/dev/null && cat /etc/my.conf 2>/dev/null && cat /etc/httpd/conf/httpd.conf 2>/dev/null && cat /opt/lampp/etc/httpd.conf 2>/dev/null && ls -aRl /etc/ 2>/dev/null | awk '$1 ~ /^.*r.*/' 2>/dev/null
